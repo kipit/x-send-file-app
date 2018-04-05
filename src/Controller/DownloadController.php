@@ -16,6 +16,9 @@ class DownloadController
 
     public function __invoke()
     {
+        // Drop me to the front controller
+        BinaryFileResponse::trustXSendfileTypeHeader();
+
         return new BinaryFileResponse(
             $this->baseDir . '/too-large-file.txt',
             200,
