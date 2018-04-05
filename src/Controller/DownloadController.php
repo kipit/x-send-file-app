@@ -2,7 +2,8 @@
 
 namespace App\Controller;
 
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class DownloadController
 {
@@ -15,15 +16,12 @@ class DownloadController
 
     public function __invoke()
     {
-        $content = file_get_contents($this->baseDir.'/too-large-file.txt');
-        $response = new Response($content);
-        $headers = $response->headers;
-        $headers->add([
-            'Content-Type' => 'application/octet-stream',
-            'Content-Length' => strlen($content),
-            'Content-Disposition' => $headers->makeDisposition($headers::DISPOSITION_ATTACHMENT,'too-large-file.txt')
-        ]);
-
-        return $response;
+        return new BinaryFileResponse(
+            $this->baseDir . '/too-large-file.txt',
+            200,
+            [],
+            true,
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT
+        );
     }
 }
