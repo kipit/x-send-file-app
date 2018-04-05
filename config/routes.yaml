@@ -1,0 +1,3 @@
+download:
+    path:     /download
+    defaults: { _controller: App\Controller\DownloadController }
